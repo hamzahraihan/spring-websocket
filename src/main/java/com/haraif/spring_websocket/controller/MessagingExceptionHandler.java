@@ -13,6 +13,7 @@ public class MessagingExceptionHandler {
   @MessageExceptionHandler(Exception.class)
   @SendToUser("/queue/errors")
   public String handleException(Exception ex) {
+    log.info("message handling error", ex);
     return ex.getMessage();
   }
 }
