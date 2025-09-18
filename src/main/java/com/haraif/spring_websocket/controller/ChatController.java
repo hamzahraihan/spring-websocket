@@ -3,7 +3,6 @@ package com.haraif.spring_websocket.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.haraif.spring_websocket.dto.ChatMessageDTO;
@@ -20,16 +19,15 @@ public class ChatController {
   @Autowired
   private ChatService chatService;
 
-  @Autowired
-  private SimpMessagingTemplate messagingTemplate;
-
   @MessageMapping("/chat.send")
-  public void sendMessage(@Valid ChatMessageDTO messageDto) {
+  @SendTo("/topic/public")
+  public ChatMessage sendMessage(@Valid ChatMessageDTO messageDto) {
+
     ChatMessage message = chatService.processMessage(messageDto);
 
     log.info("new message from {}: {}", message.getSender(), message.getContent());
 
-    messagingTemplate.convertAndSend(message);
+    return message;
   }
 
 }
