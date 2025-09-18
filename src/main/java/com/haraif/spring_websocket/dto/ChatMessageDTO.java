@@ -1,5 +1,6 @@
 package com.haraif.spring_websocket.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.haraif.spring_websocket.util.MessageType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,8 @@ public class ChatMessageDTO {
   private String content;
 
   private long timestamp;
+
+  @JsonProperty(value = "type")
   private MessageType messageType;
 
   public ChatMessageDTO() {
